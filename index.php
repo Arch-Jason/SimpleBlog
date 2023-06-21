@@ -47,8 +47,8 @@
         </div>
 
         <?php
-            parse_str($_SERVER['QUERY_STRING'], $query);
-            if($_SERVER['QUERY_STRING'] == '') {
+/* parse_str($_SERVER['QUERY_STRING'], $query); */
+            if(!isset($_GET['page'])) {
                 include('main.php');
             // } else if($query['page'] == 'Works') {
             //     if($query['WorkId'] != '') {
@@ -57,7 +57,7 @@
             //         include('works.php');
             //     }
             } else {
-                include($sidePagesConf->{$query['page']}->page);
+                include($sidePagesConf->{$_GET['page']}->page);
             }
         ?>
 
