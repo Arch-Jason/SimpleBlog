@@ -1,7 +1,7 @@
 <div class="paragraph">
     <div class="block">
         <?php
-        $content = file($mainConf->dataDir . '/' . $_GET['WorkId'] . '/' . 'content.md', FILE_IGNORE_NEW_LINES);
+        $content = file($mainConf->worksDir . '/' . $_GET['WorkId'] . '/' . 'content.md', FILE_IGNORE_NEW_LINES);
         for ($i = 0; $i < count($content); $i++) {
             if (str_starts_with($content[$i], '#')) {
                 echo ("<h2 id=\"" . substr($content[$i], 2) . "\">" . substr($content[$i], 2) . "</h2>"); //标题
