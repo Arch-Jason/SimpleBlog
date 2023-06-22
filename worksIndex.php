@@ -1,7 +1,7 @@
 <?php
-if(isset($query['WorkId']) ? $query['WorkId'] : null != '') {
-    include('worksContents.php');
-} else {
+if(!isset($_GET['WorkId'])) {
     include('works.php');
+} else {
+    include('worksContents.php');
 }
 ?>

@@ -47,7 +47,7 @@
         </div>
 
         <?php
-/* parse_str($_SERVER['QUERY_STRING'], $query); */
+            // parse_str($_SERVER['QUERY_STRING'], $query);
             if(!isset($_GET['page'])) {
                 include('main.php');
             // } else if($query['page'] == 'Works') {
