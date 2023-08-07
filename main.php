@@ -1,15 +1,38 @@
 <div class="paragraph">
 <?php
-
+    
     // get blog contents
     $blogContents = scandir($mainConf->dataDir);
-    // $blogContents = array_diff($blogContents, array('.', '..')); //exclude dot directories
-    usort($blogContents, function($a, $b) use($mainConf){
-        return filectime($mainConf->dataDir . '/' . $b) - filectime($mainConf->dataDir . '/' . $a);
-    });
+    
     $blogContents = array_filter($blogContents, function($file) { //exclude hidden files
         return $file[0] !== '.';
     });
+
+    usort($blogContents, function($a, $b) use($mainConf){
+        $contentA = file($mainConf->dataDir . '/' . $a . '/content.md', FILE_IGNORE_NEW_LINES);
+        $i = 0;
+        for(; $i < count($contentA); $i++) {
+            if(strpos($contentA[$i], '发布日期：') !== false) {
+                break;
+            }
+        }
+        $dateString = $contentA[$i];
+        $dateA = DateTime::createFromFormat('发布日期：Y/m/d', $dateString);
+        $contentB = file($mainConf->dataDir . '/' . $b . '/content.md', FILE_IGNORE_NEW_LINES);
+        $i = 0;
+        for(; $i < count($contentB); $i++) {
+            if(strpos($contentB[$i], '发布日期：') !== false) {
+                break;
+            }
+        }
+        $dateString = $contentB[$i];
+        $dateB = DateTime::createFromFormat('发布日期：Y/m/d', $dateString);
+        if($dateA > $dateB)
+            return -1;
+        else
+            return 1;
+    });
+
     foreach($blogContents as $dir) { //dir is the directory where content.md is stored
         echo('<div class="block">');
         $content = file($mainConf->dataDir . '/' . $dir . '/' . 'content.md', FILE_IGNORE_NEW_LINES);
